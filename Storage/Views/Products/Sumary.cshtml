@@ -1,13 +1,13 @@
-﻿@model IEnumerable<Storage.Models.Product>
+﻿@model IEnumerable<Storage.Models.ProductViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sumary";
 }
 
-<h1>Index</h1>
-<form asp-action="SearchProduct">
+<h1>Sumary</h1>
+<form asp-action="Search">
     <div class="input-group mb-3">
-        <input type="text" name="category" class="form-control" placeholder="Sök på categori"/>
+        <input type="text" name="category" class="form-control" placeholder="Sök på kategori"/>
         <div class="input-group-append">
             <button type="submit" class="btn btn-outline-secondary">Sök</button>
         </div>
@@ -27,19 +27,10 @@
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Orderdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Shelf)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Count)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.InventoryValue)
             </th>
             <th></th>
         </tr>
@@ -54,19 +45,10 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Orderdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Shelf)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.InventoryValue)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

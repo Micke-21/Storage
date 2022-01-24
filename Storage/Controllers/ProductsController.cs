@@ -150,5 +150,53 @@ namespace Storage.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Sumary()
+        {
+            var productViewModel = _context.Product.Select(e => new ProductViewModel
+            {
+                Name = e.Name,
+                Price = e.Price,
+                Count = e.Count,
+
+            });
+
+            return View(nameof(Sumary), await productViewModel.ToListAsync());
+        }
+
+        public async Task<IActionResult> Search(string category)
+        {
+            var viewModel = _context.Product
+                .Where(e => e.Category == category)
+                .Select(e => new ProductViewModel
+                {
+                    Id = e.Id,
+                    Count = e.Count,
+                    Name = e.Name,
+                    Price = e.Price
+
+                });
+
+            return View(nameof(Sumary), await viewModel.ToListAsync());
+        }
+        public async Task<IActionResult> SearchProduct(string category)
+        {
+            var viewModel = _context.Product
+                .Where(e => e.Category == category)
+                .Select(p => new Product
+                {
+                    Id = p.Id,
+                    Count = p.Count,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Category = p.Category,
+                    Orderdate = p.Orderdate,
+                    Shelf = p.Shelf,
+                    Description = p.Description
+                });
+
+            return View(nameof(Index), await viewModel.ToListAsync());
+        }
     }
 }
