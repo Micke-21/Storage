@@ -1,0 +1,83 @@
+﻿@model Storage.Models.ProductCategoriViewModel
+
+@{
+    ViewData["Title"] = "Produkt/kategori";
+}
+
+<h1>Produkt/kategori</h1>
+<form asp-action="Sumary2">
+    <div class="input-group mb-3">
+        <input type="text" name="product" class="form-control" placeholder="Sök på kategori" />
+        <select name="category" class="form-select input-group-append" aria-label="Default select example">
+            <option selected>Kategori</option>
+            @if (Model != null && Model.Categories != null)
+            {
+                @foreach (var cat in Model.Categories)
+                {
+                    <option value="@cat">@cat</option>
+                }
+            }
+        </select>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary">Sök</button>
+        </div>
+    </div>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Products.Name)*@
+                Namn
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Category)*@
+                Kategori
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Price)*@
+                Pris
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Count)*@
+                Antal
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.InventoryValue)*@
+                Lagersaldo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InventoryValue)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

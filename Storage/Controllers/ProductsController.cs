@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -180,6 +181,7 @@ namespace Storage.Controllers
 
             return View(nameof(Sumary), await viewModel.ToListAsync());
         }
+
         public async Task<IActionResult> SearchProduct(string category)
         {
             var viewModel = _context.Product
@@ -197,6 +199,49 @@ namespace Storage.Controllers
                 });
 
             return View(nameof(Index), await viewModel.ToListAsync());
+        }
+
+
+        public async Task<IActionResult> Sumary2(string product, string category)
+        {
+            CultureInfo culture = new CultureInfo("sv-SE");
+           
+            var cat = _context.Product
+                .Select(c => c.Category)
+                .Distinct()
+                .OrderBy(c => c)
+                //.OrderBy(c => c, StringComparer.Create(culture, CompareOptions.IgnoreCase))
+                //.OrderBy(c => c, StringComparer.Create(culture, ignoreCase: true))
+                ;
+            //ToDo OrderBy sorterar åäö fel!!!
+
+
+            var viewModel = _context.Product
+                .Where(e => e.Category == category || category == "Kategori" || string.IsNullOrWhiteSpace(category))
+                //.Where(e => true)
+                .Where(e => (string.IsNullOrWhiteSpace(product)) || e.Name.StartsWith(product) )
+
+                .Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Count = p.Count,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Category = p.Category,
+                    //Orderdate = p.Orderdate,
+                    //Shelf = p.Shelf,
+                    //Description = p.Description
+                })
+                .OrderBy(o => o.Category)
+                .ThenBy(o => o.Name);
+
+            var prodCatModel = new ProductCategoriViewModel
+            {
+                Categories = await cat.ToListAsync(),
+                Products = (IEnumerable<ProductViewModel>)await viewModel.ToListAsync()
+            };
+
+            return View(nameof(Sumary2), prodCatModel);
         }
     }
 }
