@@ -204,7 +204,7 @@ namespace Storage.Controllers
 
         public async Task<IActionResult> Sumary2(string product, string category)
         {
-            CultureInfo culture = new CultureInfo("sv-SE");
+            CultureInfo culture = new CultureInfo("sv-SE", false);
            
             var cat = _context.Product
                 .Select(c => c.Category)
@@ -218,9 +218,7 @@ namespace Storage.Controllers
 
             var viewModel = _context.Product
                 .Where(e => e.Category == category || category == "Kategori" || string.IsNullOrWhiteSpace(category))
-                //.Where(e => true)
                 .Where(e => (string.IsNullOrWhiteSpace(product)) || e.Name.StartsWith(product) )
-
                 .Select(p => new ProductViewModel
                 {
                     Id = p.Id,
@@ -237,8 +235,8 @@ namespace Storage.Controllers
 
             var prodCatModel = new ProductCategoriViewModel
             {
-                Categories = await cat.ToListAsync(),
-                Products = (IEnumerable<ProductViewModel>)await viewModel.ToListAsync()
+                Categories = await cat.OrderBy(c=>c).ToListAsync(),
+                Products = await viewModel.ToListAsync()
             };
 
             return View(nameof(Sumary2), prodCatModel);
