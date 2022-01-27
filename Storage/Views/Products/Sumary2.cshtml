@@ -38,15 +38,15 @@
                 @* @Html.DisplayNameFor(model => model.Category)*@
                 Kategori
             </th>
-            <th>
+            <th class="text-end">
                 @*@Html.DisplayNameFor(model => model.Price)*@
                 Pris
             </th>
-            <th>
+            <th class="text-end">
                 @*@Html.DisplayNameFor(model => model.Count)*@
                 Antal
             </th>
-            <th>
+            <th class="text-end">
                 @*@Html.DisplayNameFor(model => model.InventoryValue)*@
                 Lagersaldo
             </th>
@@ -63,13 +63,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
-                <td>
+                <td class="text-end">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="text-end">
                     @Html.DisplayFor(modelItem => item.Count)
                 </td>
-                <td>
+                <td class="text-end">
                     @Html.DisplayFor(modelItem => item.InventoryValue)
                 </td>
                 <td>
